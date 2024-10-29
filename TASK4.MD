@@ -98,7 +98,7 @@ $$;
  
 Далее результат анализируется следующим образом:
 
-* `DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)` - эта команда позваоляет получить разницу в днях между двумя датами.
+* `DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)` - эта команда позволяет получить разницу в днях между двумя датами.
 *  `t.price * DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)` - стоимость за съем номера на n-дней.
 * `NULLIF(sum(DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)), 0)` - позволяет проверить не равно ли количество дней 0. В этом случае результат будет 0.
 * Итоговый результат мы рассчитываем по формуле `сумма_продаж / число_ночей` т.е. 
