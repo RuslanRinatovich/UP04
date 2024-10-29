@@ -119,6 +119,21 @@ CREATE TABLE floors (
 );
 
 
+-- public.room_equipment определение
+
+-- Drop table
+
+-- DROP TABLE room_equipment;
+
+CREATE TABLE room_equipment (
+	room_category_id int8 NOT NULL,
+	equipment_id int8 NOT NULL,
+	CONSTRAINT room_equipment_pk PRIMARY KEY (room_category_id, equipment_id),
+	CONSTRAINT room_equipment_fk_1 FOREIGN KEY (equipment_id) REFERENCES equipment(equipment_id) ON DELETE SET NULL,
+	CONSTRAINT room_equipment_room_categories_fk FOREIGN KEY (room_category_id) REFERENCES room_categories(room_category_id) ON DELETE SET NULL
+);
+
+
 -- public.rooms определение
 
 -- Drop table
@@ -208,21 +223,6 @@ CREATE TABLE housekeepings (
 );
 
 
--- public.room_equipment определение
-
--- Drop table
-
--- DROP TABLE room_equipment;
-
-CREATE TABLE room_equipment (
-	room_id int8 NOT NULL,
-	equipment_id int8 NOT NULL,
-	CONSTRAINT room_equipment_pk PRIMARY KEY (room_id, equipment_id),
-	CONSTRAINT room_equipment_fk FOREIGN KEY (room_id) REFERENCES rooms(room_id) ON DELETE SET NULL,
-	CONSTRAINT room_equipment_fk_1 FOREIGN KEY (equipment_id) REFERENCES equipment(equipment_id) ON DELETE SET NULL
-);
-
-
 -- public.booking_additional_services определение
 
 -- Drop table
@@ -237,6 +237,7 @@ CREATE TABLE booking_additional_services (
 	CONSTRAINT booking_additional_services_fk FOREIGN KEY (booking_id) REFERENCES bookings(booking_id) ON DELETE SET NULL,
 	CONSTRAINT booking_additional_services_fk_1 FOREIGN KEY (additional_service_id) REFERENCES additional_services(additional_service_id) ON DELETE SET NULL
 );
+
 
 
 INSERT INTO additional_services (title,price,description) VALUES
@@ -310,7 +311,7 @@ INSERT INTO room_categories (title,description,price) VALUES
 	 ('Студия','Однокомнатный номер с ванной комнатой. В номере: одна двуспальная, платяной шкаф, прикроватные тумбочки, письменный стол, стулья или мягкое кресло, зеркало, телефон, ТВ, холодильник, чайная пара, набор полотенец и косметических принадлежностей для ванной комнаты.',4050.0),
 	 ('Люкс с 2 двуспальными кроватями','Трехкомнатный номер с ванной комнатой. В номере: 2 двуспальные кровати, платяной шкаф, прикроватные тумбочки, письменный стол, стулья или мягкое кресло, зеркало, телефон, ТВ, холодильник, чайная пара, набор полотенец и косметических принадлежностей для ванной комнаты.',4500.0),
 	 ('3-местный бюджет','Туалет и ванная комната общая на 2 номера. В номере: три кровати, платяной шкаф, прикроватные тумбочки, письменный стол, стулья или мягкое кресло, зеркало, телефон, ТВ, холодильник, чайная пара, набор полотенец и косметических принадлежностей для ванной комнаты.',3150.0);
-INSERT INTO room_equipment (room_id,equipment_id) VALUES
+INSERT INTO room_equipment (room_category_id,equipment_id) VALUES
 	 (1,1),
 	 (1,2),
 	 (1,3),
@@ -321,7 +322,7 @@ INSERT INTO room_equipment (room_id,equipment_id) VALUES
 	 (1,8),
 	 (2,1),
 	 (2,2);
-INSERT INTO room_equipment (room_id,equipment_id) VALUES
+INSERT INTO room_equipment (room_category_id,equipment_id) VALUES
 	 (2,3),
 	 (2,4),
 	 (2,5),
@@ -366,5 +367,3 @@ INSERT INTO floors (title) VALUES
 	 ('Этаж 1'),
 	 ('Этаж 2'),
 	 ('Этаж 3');
-
-
