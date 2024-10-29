@@ -106,6 +106,19 @@ CREATE TABLE staff_categories (
 );
 
 
+-- public.floors определение
+
+-- Drop table
+
+-- DROP TABLE floors;
+
+CREATE TABLE floors (
+	floor_id int8 GENERATED ALWAYS AS IDENTITY NOT NULL,
+	title varchar(20) NOT NULL,
+	CONSTRAINT floors_pk PRIMARY KEY (floor_id)
+);
+
+
 -- public.rooms определение
 
 -- Drop table
@@ -114,13 +127,14 @@ CREATE TABLE staff_categories (
 
 CREATE TABLE rooms (
 	room_id int8 GENERATED ALWAYS AS IDENTITY( INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1 NO CYCLE) NOT NULL,
-	floor_number int8 NOT NULL,
+	floor_id int8 NOT NULL,
 	"number" int4 NOT NULL,
 	room_category_id int8 NOT NULL,
 	room_status_id int8 NOT NULL,
 	CONSTRAINT rooms_pk PRIMARY KEY (room_id),
 	CONSTRAINT rooms_fk FOREIGN KEY (room_category_id) REFERENCES room_categories(room_category_id) ON DELETE SET NULL,
-	CONSTRAINT rooms_fk_1 FOREIGN KEY (room_status_id) REFERENCES room_status(room_status_id) ON DELETE SET NULL
+	CONSTRAINT rooms_fk_1 FOREIGN KEY (room_status_id) REFERENCES room_status(room_status_id) ON DELETE SET NULL,
+	CONSTRAINT rooms_floors_fk FOREIGN KEY (floor_id) REFERENCES floors(floor_id) ON DELETE SET NULL
 );
 
 
@@ -186,9 +200,10 @@ CREATE TABLE bookings (
 CREATE TABLE housekeepings (
 	housekeeping_id int8 GENERATED ALWAYS AS IDENTITY( INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1 NO CYCLE) NOT NULL,
 	employee_id int8 NOT NULL,
-	floor_number int8 NOT NULL,
+	floor_id int8 NOT NULL,
 	cleaning_date date NOT NULL,
 	CONSTRAINT housekeepings_pk PRIMARY KEY (housekeeping_id),
+	CONSTRAINT housekeepings_floors_fk FOREIGN KEY (floor_id) REFERENCES floors(floor_id) ON DELETE SET NULL,
 	CONSTRAINT housekeepings_staff_fk FOREIGN KEY (employee_id) REFERENCES staff(employee_id) ON DELETE SET NULL
 );
 
@@ -222,6 +237,7 @@ CREATE TABLE booking_additional_services (
 	CONSTRAINT booking_additional_services_fk FOREIGN KEY (booking_id) REFERENCES bookings(booking_id) ON DELETE SET NULL,
 	CONSTRAINT booking_additional_services_fk_1 FOREIGN KEY (additional_service_id) REFERENCES additional_services(additional_service_id) ON DELETE SET NULL
 );
+
 
 INSERT INTO additional_services (title,price,description) VALUES
 	 ('Дополнительный завтрак',750.0,'Ресторан отеля предлагает большой выбор блюд традиционной европейской кухни. Горячие и холодные закуски, гарниры и основные блюда, а также салаты и десерты. Система «шведский стол»'),
@@ -266,20 +282,20 @@ INSERT INTO equipment (title) VALUES
 	 ('шкаф для одежды'),
 	 ('двуспальная кровать'),
 	 ('полутораспальная кровать');
-INSERT INTO housekeepings (employee_id,floor_number,cleaning_date) VALUES
-	 (4,1,'2024-10-21'),
-	 (1,2,'2024-10-21'),
-	 (3,3,'2024-10-21'),
-	 (4,1,'2024-10-22'),
-	 (1,2,'2024-10-22'),
-	 (3,3,'2024-10-22'),
-	 (4,1,'2024-10-23'),
-	 (1,2,'2024-10-23'),
-	 (3,3,'2024-10-23'),
-	 (4,1,'2024-10-24');
-INSERT INTO housekeepings (employee_id,floor_number,cleaning_date) VALUES
-	 (1,2,'2024-10-24'),
-	 (3,3,'2024-10-25');
+INSERT INTO housekeepings (employee_id,floor_id,cleaning_date) VALUES
+	 (4,4,'2024-10-21'),
+	 (1,5,'2024-10-21'),
+	 (3,6,'2024-10-21'),
+	 (4,4,'2024-10-22'),
+	 (1,5,'2024-10-22'),
+	 (3,6,'2024-10-22'),
+	 (4,4,'2024-10-23'),
+	 (1,5,'2024-10-23'),
+	 (3,6,'2024-10-23'),
+	 (4,4,'2024-10-24');
+INSERT INTO housekeepings (employee_id,floor_id,cleaning_date) VALUES
+	 (1,5,'2024-10-24'),
+	 (3,6,'2024-10-25');
 INSERT INTO roles (title) VALUES
 	 ('руководитель'),
 	 ('сотрудник');
@@ -317,17 +333,17 @@ INSERT INTO room_status (title) VALUES
 	 ('Чистый'),
 	 ('Назначен к уборке'),
 	 ('Грязный');
-INSERT INTO rooms (floor_number,"number",room_category_id,room_status_id) VALUES
-	 (1,101,1,2),
-	 (1,102,2,1),
-	 (1,103,3,4),
-	 (2,201,4,1),
-	 (2,202,5,2),
-	 (2,203,6,3),
-	 (2,204,7,4),
-	 (3,301,8,1),
-	 (3,302,9,2),
-	 (3,303,9,2);
+INSERT INTO rooms (floor_id,"number",room_category_id,room_status_id) VALUES
+	 (4,101,1,2),
+	 (4,102,2,1),
+	 (4,103,3,4),
+	 (5,201,4,1),
+	 (5,202,5,2),
+	 (5,203,6,3),
+	 (5,204,7,4),
+	 (6,301,8,1),
+	 (6,302,9,2),
+	 (6,303,9,2);
 INSERT INTO staff (firts_name,last_name,middle_name,employee_category_id,phone) VALUES
 	 ('Горев','Филипп','Романович',1,'+7 (958) 569-65-50'),
 	 ('Аксенова','Аксенова','Антоновна',3,'+7 (956) 554-55-87'),
@@ -343,5 +359,12 @@ INSERT INTO users (username,"password",role_id,employee_id) VALUES
 	 ('filip','1',1,2),
 	 ('anfisa','2',2,6),
 	 ('artem','2',2,5);
+INSERT INTO floors (title) VALUES
+	 ('уровень B'),
+	 ('уровень A'),
+	 ('Этаж 0'),
+	 ('Этаж 1'),
+	 ('Этаж 2'),
+	 ('Этаж 3');
 
 
