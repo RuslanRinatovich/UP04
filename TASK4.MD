@@ -8,12 +8,6 @@
 
 ### `ADR` - простая версия
 
-Формируется запрос, который выбирает из соединения таблиц `bookings + rooms + category_rooms` только те
-записи _дата начала проживания_ **больше или равна** _началу интервала_ и при этом
-_дата окончания проживания_ **меньше или равна** _концу интервала временного_ промежутка.
-
-С помощью команды `DATE_PART('day', b.date_end::timestamp - b.date_start ::timestamp)` находится количество дней между двумя датами.
-
 
 ```sql
 CREATE FUNCTION get_avg(date_s date, date_e date)
@@ -42,37 +36,16 @@ END;
 $$;
 ```
 
+Формируется запрос, который выбирает из соединения таблиц `bookings + rooms + category_rooms` только те
+записи _дата начала проживания_ **больше или равна** _началу интервала_ и при этом
+_дата окончания проживания_ **меньше или равна** _концу интервала временного_ промежутка.
+
+С помощью команды `DATE_PART('day', b.date_end::timestamp - b.date_start ::timestamp)` находится количество дней между двумя датами.
+
+
+
 
 ### `ADR` - сложная версия
-
-В этом варианте запрос имеет более сложную логику.
-Формируется запрос, который выбирает из соединения таблиц `bookings + rooms + category_rooms` те
-записи для которых выполняется следующее условие:
-
-```
-((from_start_date <= дата начала проживания <= to_end_date) ИЛИ (from_start_date <= дата окончания проживания <= to_end_date)) 
-И (дата окончания проживания НЕ ПУСТОЕ)
-```
-
-Вначале в результирующую таблицу передается следующая информация:
-* booking_id
-* price - стоимость комнаты за сутки
-* start_date (выполняется сравнение переданной ыв функцию даты `from_start_date` с той, которая будет получена у брони `date_start`. 
- Если `date_start > from_start_date` то в качестве значения для `start_date` берется значение `date_start` у записи, иначе берется значение `date_s`)
-* end_date (выполняется сравнение переданной даты `to_end_date` с той, которая будет получена у брони `date_end`. 
- Если `to_end_date > date_end` то в качестве значения для `start_date` берется значение `date_end` у записи, иначе берется значение `to_end_date`)
- 
-Далее результат анализируется следующим образом:
-
-* `DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)` - эта команда позваоляет получить разницу в днях между двумя датами.
-*  `t.price * DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)` - стоимость за съем номера на n-дней.
-* `NULLIF(sum(DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)), 0)` - позволяет проверить не равно ли количество дней 0. В этом случае результат будет 0.
-* Итоговый результат мы рассчитываем по формуле `сумма_продаж / число_ночей` т.е. 
-
-```
-sum(t.price * DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)) / 
-			NULLIF(sum(DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)), 0)
-```
 
 ```sql
 CREATE OR REPLACE FUNCTION get_avg_hard_full_version(from_start_date date, to_end_date date)
@@ -105,6 +78,37 @@ BEGIN
 END;
 $$;
 ```
+
+В этом варианте запрос имеет более сложную логику.
+Формируется запрос, который выбирает из соединения таблиц `bookings + rooms + category_rooms` те
+записи для которых выполняется следующее условие:
+
+```
+((from_start_date <= дата начала проживания <= to_end_date) ИЛИ (from_start_date <= дата окончания проживания <= to_end_date)) 
+И (дата окончания проживания НЕ ПУСТОЕ)
+```
+
+Вначале в результирующую таблицу передается следующая информация:
+* booking_id
+* price - стоимость комнаты за сутки
+* start_date (выполняется сравнение переданной ыв функцию даты `from_start_date` с той, которая будет получена у брони `date_start`. 
+ Если `date_start > from_start_date` то в качестве значения для `start_date` берется значение `date_start` у записи, иначе берется значение `date_s`)
+* end_date (выполняется сравнение переданной даты `to_end_date` с той, которая будет получена у брони `date_end`. 
+ Если `to_end_date > date_end` то в качестве значения для `start_date` берется значение `date_end` у записи, иначе берется значение `to_end_date`)
+ 
+Далее результат анализируется следующим образом:
+
+* `DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)` - эта команда позваоляет получить разницу в днях между двумя датами.
+*  `t.price * DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)` - стоимость за съем номера на n-дней.
+* `NULLIF(sum(DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)), 0)` - позволяет проверить не равно ли количество дней 0. В этом случае результат будет 0.
+* Итоговый результат мы рассчитываем по формуле `сумма_продаж / число_ночей` т.е. 
+
+```
+sum(t.price * DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)) / 
+			NULLIF(sum(DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)), 0)
+```
+
+
 
 ### `ADR` - разделение на два отлельных запроса
 
