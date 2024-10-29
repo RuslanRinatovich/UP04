@@ -10,7 +10,7 @@
 
 
 ```sql
-CREATE FUNCTION get_avg(date_s date, date_e date)
+CREATE FUNCTION get_adr(date_s date, date_e date)
 RETURNS real
 LANGUAGE plpgsql
 AS
