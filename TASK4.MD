@@ -160,7 +160,8 @@ AS $function$
 DECLARE
    adr_result decimal(10,2);
 BEGIN
-   SELECT sum(t.price * DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)) / NULLIF(sum(DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)), 0) AS avg  
+   SELECT sum(t.price * DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)) /
+      NULLIF(sum(DATE_PART('day', t.end_date::timestamp - t.start_date ::timestamp)), 0) AS avg  
    INTO adr_result
 	FROM get_bookings(date_s, date_e) AS t;
 	RETURN adr_result;
