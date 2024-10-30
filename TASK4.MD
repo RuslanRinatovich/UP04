@@ -701,6 +701,8 @@ INSERT INTO bookings(client_id, date_start, date_end, room_id)
 
 [Учетные данные 215 Группа](docs/215.md)
 
+[Руководство по триггерам на английском языке](https://neon.tech/postgresql/postgresql-triggers)
+
 **Задание 1**
 
 Создайте все версии хранимых процедур ADR согласно примеру. 
