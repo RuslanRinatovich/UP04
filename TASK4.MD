@@ -380,15 +380,15 @@ EXECUTE PROCEDURE trigger_function_name();
 ```
 Выполните запрос.
 
-![img_4.png](img_4.png)
+![img_4.png](TASK4/img_4.png)
 
 Если код корректный, то будет получен результат 
 
-![img_5.png](img_5.png)
+![img_5.png](TASK4/img_5.png)
 
 В списке функции вашей схемы должна появиться функция reserve_room().
 
-![img_6.png](img_6.png)
+![img_6.png](TASK4/img_6.png)
 
 Теперь создадим **триггер строк**
 
@@ -401,15 +401,15 @@ EXECUTE PROCEDURE trigger_function_name();
 ```
 Выполните запрос. 
 
-![img_7.png](img_7.png)
+![img_7.png](TASK4/img_7.png)
 
 Если код корректный, то будет получен результат 
 
-![img_8.png](img_8.png)
+![img_8.png](TASK4/img_8.png)
 
 Если теперь в обзоре открыть таблицу `bookings` и посмотреть на список триггеров, там должен отобразиться триггер `set_reserve_rooms`
 
-![img_9.png](img_9.png)
+![img_9.png](TASK4/img_9.png)
 
 
 ## Тестирование триггера
@@ -418,17 +418,17 @@ EXECUTE PROCEDURE trigger_function_name();
 
 **room_status**
 
-![img_10.png](img_10.png)
+![img_10.png](TASK4/img_10.png)
 
 **rooms**
 
 В таблице `rooms` есть только одна комната 203, у которой room_id = 6, которая имеет статус чистый, т.е room_status_id = 3.
 
-![img_11.png](img_11.png)
+![img_11.png](TASK4/img_11.png)
 
 **bookings**
 
-![img_12.png](img_12.png)
+![img_12.png](TASK4/img_12.png)
 
 Добавим в таблицу bookings новую запись. Поселим клиента в комнату 203.
 Созданный нами ранее триггер set_reserve_rooms должен будет изменить статус этой комнаты на `Занят`, 
@@ -442,15 +442,15 @@ INSERT INTO bookings(client_id, date_start, date_end, room_id)
 
 Выполните его. Если ошибок в запросе нет, то отобразится окно с результатом выполнения запроса
 
-![img_13.png](img_13.png)
+![img_13.png](TASK4/img_13.png)
 
 Посмотрим на изменения в БД. В таблице bookings должна появиться новая запись 
 
-![img_14.png](img_14.png)
+![img_14.png](TASK4/img_14.png)
 
 Если триггер был создан корректно, то он также обновит статус комнаты 203 с room_id = 6 на room_status_id = 3.
 
-![img_15.png](img_15.png)
+![img_15.png](TASK4/img_15.png)
 
 
 # Триггер из задания ДЭ 2025 
@@ -493,7 +493,7 @@ $$
 ```
 Выполните его. Если ошибок в запросе нет, то отобразится окно с результатом выполнения запроса
 
-![img_17.png](img_17.png)
+![img_17.png](TASK4/img_17.png)
 
 Теперь создадим триггер
 
@@ -506,7 +506,7 @@ EXECUTE FUNCTION check_free_rooms();
 
 Выполните его. Если ошибок в запросе нет, то отобразится окно с результатом выполнения запроса
 
-![img_16.png](img_16.png)
+![img_16.png](TASK4/img_16.png)
 
 ## Тестирование
 
@@ -516,17 +516,17 @@ EXECUTE FUNCTION check_free_rooms();
 
 **room_status**
 
-![img_10.png](img_10.png)
+![img_10.png](TASK4/img_10.png)
 
 **rooms**
 
 В таблице `rooms` есть только одна комната 203, у которой room_id = 6, которая имеет статус чистый, т.е room_status_id = 3.
 
-![img_11.png](img_11.png)
+![img_11.png](TASK4/img_11.png)
 
 **bookings**
 
-![img_12.png](img_12.png)
+![img_12.png](TASK4/img_12.png)
 
 Добавим в таблицу bookings новую запись. Поселим клиента в комнату 203.
 Созданный нами ранее триггер set_reserve_rooms должен будет изменить статус этой комнаты на `Занят`, 
@@ -540,23 +540,23 @@ INSERT INTO bookings(client_id, date_start, date_end, room_id)
 
 Выполните его. Если ошибок в запросе нет, то отобразится окно с результатом выполнения запроса
 
-![img_13.png](img_13.png)
+![img_13.png](TASK4/img_13.png)
 
 Посмотрим на изменения в БД. В таблице bookings должна появиться новая запись 
 
-![img_14.png](img_14.png)
+![img_14.png](TASK4/img_14.png)
 
 Наши два триггера `check_rooms` и `set_reserve_rooms` отработают корректно.
 check_rooms проверит наличие свободных номеров. И так как сободные номера есть, то ошибки не возникнет.
 Далее после добавления записи в таблицу bookings новой записи запутится триггер set_reserve_rooms, который обновит статус комнаты 203 с room_id = 6 на room_status_id = 3.
 
-![img_15.png](img_15.png)
+![img_15.png](TASK4/img_15.png)
 
 ### Тестирование добавления при отсутствии свободных номеров
 
 В таблице rooms нет свободных(Чистый) номеров.
 
-![img_19.png](img_19.png)
+![img_19.png](TASK4/img_19.png)
 
 Теперь снова попробуем выполнить тот же самый запрос на добавление записи в таблицу bookings.
 
@@ -567,7 +567,7 @@ INSERT INTO bookings(client_id, date_start, date_end, room_id)
 
 При попытке выполнить наш запрос мы получим ошибку 45000 с текстом `ALL ROOMS RESERVED`,
 
-![img_20.png](img_20.png)
+![img_20.png](TASK4/img_20.png)
 
 Сработал наш триггер `check_rooms`, который проверил наличие свободных номеров. 
 Так как свободных(`Чистый`) номеров нет была сгенерирована ошибка SQLState с кодом 45000 и текстом `ALL ROOMS RESERVED`.
@@ -608,7 +608,7 @@ $$
 ```
 Выполните его. Если ошибок в запросе нет, то отобразится окно с результатом выполнения запроса
 
-![img_21.png](img_21.png)
+![img_21.png](TASK4/img_21.png)
 
 Теперь создадим триггер строк
 
@@ -621,14 +621,14 @@ EXECUTE FUNCTION is_current_room_free();
 
 Выполните его. Если ошибок в запросе нет, то отобразится окно с результатом выполнения запроса
 
-![img_22.png](img_22.png)
+![img_22.png](TASK4/img_22.png)
 
 ## Тестирование
 
 Так как наш новый триггер `check_current_rooms` и `check_rooms` срабатывают при наступлении одних и тех же условий, 
 нам придется удалить check_rooms из списка триггеров таблицы `bookings`.
 
-![img_23.png](img_23.png)
+![img_23.png](TASK4/img_23.png)
 
 
 ### Тестирование добавления при наличии свободных номеров
@@ -637,17 +637,17 @@ EXECUTE FUNCTION is_current_room_free();
 
 **room_status**
 
-![img_10.png](img_10.png)
+![img_10.png](TASK4/img_10.png)
 
 **rooms**
 
 В таблице `rooms` есть только одна комната 203, у которой room_id = 6, которая имеет статус чистый, т.е room_status_id = 3.
 
-![img_11.png](img_11.png)
+![img_11.png](TASK4/img_11.png)
 
 **bookings**
 
-![img_12.png](img_12.png)
+![img_12.png](TASK4/img_12.png)
 
 Добавим в таблицу bookings новую запись. Поселим клиента в комнату 203.
 Созданный нами ранее триггер set_reserve_rooms должен будет изменить статус этой комнаты на `Занят`, 
@@ -661,11 +661,11 @@ INSERT INTO bookings(client_id, date_start, date_end, room_id)
 
 Выполните его. Если ошибок в запросе нет, то отобразится окно с результатом выполнения запроса
 
-![img_24.png](img_24.png)
+![img_24.png](TASK4/img_24.png)
 
 Посмотрим на изменения в БД. В таблице bookings должна появиться новая запись 
 
-![img_14.png](img_14.png)
+![img_14.png](TASK4/img_14.png)
 
 Наши два триггера `check_current_rooms` и `set_reserve_rooms` отработают корректно.
 `check_current_rooms` проверит является ли комната с room_id = 6 свободной.
@@ -674,13 +674,13 @@ INSERT INTO bookings(client_id, date_start, date_end, room_id)
 триггер set_reserve_rooms, который обновит статус комнаты 203 с room_id = 6 
 на room_status_id = 2.
 
-![img_15.png](img_15.png)
+![img_15.png](TASK4/img_15.png)
 
 ### Тестирование добавления при отсутствии свободных номеров
 
 В таблице rooms нет свободных(Чистый) номеров.
 
-![img_19.png](img_19.png)
+![img_19.png](TASK4/img_19.png)
 
 Теперь снова попробуем выполнить тот же самый запрос на добавление записи в таблицу bookings.
 
@@ -691,7 +691,7 @@ INSERT INTO bookings(client_id, date_start, date_end, room_id)
 
 При попытке выполнить наш запрос мы получим ошибку 45000 с текстом `ROOM WITH ID 6 RESERVED`,
 
-![img_25.png](img_25.png)
+![img_25.png](TASK4/img_25.png)
 
 Сработал наш триггер `check_current_rooms`, он проверил явлется ли комната с room_id = 6 свободной. 
 Так как комната теперь имеет статус `Занят`, то была сгенерирована ошибка SQLState с кодом 45000 и текстом `ROOM WITH ID 6 RESERVED`.
