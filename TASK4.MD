@@ -531,6 +531,58 @@ INSERT INTO bookings(client_id, date_start, date_end, room_id)
 Так как свободных(`Чистый`) номеров нет была сгенерирована ошибка SQLState с кодом 45000 и текстом `ALL ROOMS RESERVED`.
 
 
+# Триггер из задания ДЭ 2025 - улучшенная версия
+
+Можно добавить другую версию этого триггера. 
+> Создайте триггер, который при попытке бронирования будет 
+> проверять является ли номер, в который осуществляется бронь свободным.
+> Если комната не свободна, должна быть сгенерирована ошибка с выводом статуса `(SIGNAL SQLSTATE '45000')`.
+
+Нам нужно будет создать **триггер строк**(ROW), который будет срабатывать перед(BEFORE) добалении(INSERT) записи в таблицу bookings.
+
+Для начала создадим триггерную функцию.
+
+```sql
+CREATE OR REPLACE FUNCTION is_current_room_free()
+   RETURNS TRIGGER
+   LANGUAGE PLPGSQL
+AS $$
+	DECLARE	 rooms_count integer;
+BEGIN
+   SELECT count(*) 
+   INTO rooms_count
+   FROM rooms r JOIN room_status rs ON r.room_status_id = rs.room_status_id 
+   WHERE rs.title = 'Чистый' AND r.room_id = NEW.room_id;
+   IF rooms_count = 0 THEN
+   		RAISE SQLSTATE '45000' USING MESSAGE = 'ROOM WITH ID ' || NEW.room_id || ' RESERVED';	
+   END IF;
+   RETURN NEW;
+END;
+$$
+```
+Выполните его. Если ошибок в запросе нет, то отобразится окно с результатом выполнения запроса
+
+![img_21.png](img_21.png)
+
+Теперь создадим триггер строк
+
+```sql
+CREATE OR REPLACE TRIGGER check_current_rooms
+BEFORE INSERT ON bookings
+FOR EACH ROW 
+EXECUTE FUNCTION is_current_room_free();
+```
+
+Выполните его. Если ошибок в запросе нет, то отобразится окно с результатом выполнения запроса
+
+![img_22.png](img_22.png)
+
+## Тестирование работы триггера
+
+Так как наш новый триггер `check_current_rooms` и `check_rooms` срабатывают при наступлении одних и тех же условий, 
+нам придется удалить check_rooms из списка триггеров таблицы `bookings`.
+
+![img_23.png](img_23.png)
 
 [Учетные данные 215 Группа](docs/215.md)
 
