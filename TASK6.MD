@@ -43,7 +43,25 @@
 
 # Выполнение
 
+1. Создайте новое `Java FX` Приложение. В качестве названия укажите
 
+Параметр |        Значение
+:----------------:|:-----------------------:
+Name: | hotel-app
+Language: | Java
+Build system: | Maven
+Group: | ru.demo
+Artifact: | hotel-app
+JDK: | coretto-22 Amazon Coretto version
+
+
+![img.png](img.png)
+
+2. Далее нажмите на кнопку `Create` 
+
+![img_1.png](img_1.png)
+
+[Video1.mp4](Video1.mp4)
 
 # Задания
 
