@@ -1,21 +1,34 @@
-Предыдущее занятие |         &nbsp;          | Следующее занятие
-:----------------:|:-----------------------:|:----------------:
-[Задание 5](TASK4.MD) | [Содержание](README.MD) | [Задание 7](TASK7.MD)
-
+Предыдущее занятие | &nbsp; | Следующее занятие
+:----------------:|:----------:|:----------------:
+[Урок 1](Lesson1.md) | [Содержание](readme.md) | [Урок 3](Lesson3.md)
 
 # Модуль №4: Разработка модулей программного обеспечения для компьютерных систем
 
-1. [Запрос 1](#запрос-1)
-    * [Формулировка](#формулировка)
-    * [Решение - группировка результата по клиенту](#решение---группировка-результата-по-клиенту)
-    * [Решение - группировка результата по брони](#решение---группировка-результата-по-брони)
-2. [Запрос 2](#запрос-2)
-    * [Формулировка](#формулировка-1)
-    * [Решение](#решение)
-3. [Задания](#задания)
+## План
+1. [Создание проекта](#создание-проекта)
+2. [Настройка проекта](#настройка-проекта)
+   * [pom.xml](#pomxml)
+   * [checkstyle.xml](#checkstylexml)
+   * [suppressions.xml](#suppressionsxml)
+3. [Настройка подключения к БД](#настройка-подключения-к-бд)
+   * [hibernate.cfg.xml](#hibernatecfgxml)
+   * [module-info.java](#module-infojava)
+   * [Настройка стилей base-styles.css](#base-stylescss)
+   * [Класс User](#User.java)
+4. [package util]()
+   * [класс HibernateSessionFactoryUtil.java](#класс-hibernatesessionfactoryutiljava)
+   * [класс MakeCaptcha.java](#класс-makecaptchajava)
+   * [Класс Manager.java](#класс-managerjava)
+5. [package controllers]()
+   * [LoginController.java](#logincontrollerjava)
+   * [MainWindowController.java](#mainwindowcontrollerjava)
+6. [package resources.ru.demo.hotelapp]()
+   * [login-view.fxml](#login-viewfxml)
+   * [main-view.fxml](#main-viewfxml)
+7. [Файл hotelapp.java](#hotelappjava)
+4. [Запуск приложения](#запуск-приложения)
 
-
-### Текст задания
+# Текст задания
 
 Создайте модуль программного обеспечения, который
 позволит анализировать информацию из созданной базы данных.
@@ -43,7 +56,17 @@
 
 # Выполнение
 
-1. Создайте новое `Java FX` Приложение. В качестве названия укажите
+
+
+2. Далее нажмите на кнопку `Create` 
+
+## Создание проекта
+
+1. Запустите IntelliJ IDEA.
+2. Выберите слева вкладку **Projects**  и нажмите на кнопку **New Project**.
+![img.png](TASK6/img0.png)
+
+3. Создайте новое `Java FX` Приложение со следующими параметрами. 
 
 Параметр |        Значение
 :----------------:|:-----------------------:
@@ -54,35 +77,13 @@ Group: | ru.demo
 Artifact: | hotel-app
 JDK: | coretto-22 Amazon Coretto version
 
-
 ![img.png](img.png)
 
-2. Далее нажмите на кнопку `Create` 
-
-![img_1.png](img_1.png)
-Предыдущее занятие | &nbsp; | Следующее занятие
-:----------------:|:----------:|:----------------:
-[Урок 1](Lesson1.md) | [Содержание](readme.md) | [Урок 3](Lesson3.md)
-
-# Урок 2. Создание Java FX приложения и подключение к БД
-
-
-
-## Создание проекта
-
-1. Запустите IntelliJ IDEA.
-2. Выберите слева вкладку **Projects**  и нажмите на кнопку **New Project**.
-![img.png](TASK6/img0.png)
-3. В появившемся окне выберите тип приложения JavaFX. Дайте имя проекту **trade-app**. 
-Language - **Java**, Build system - **Maven**,  Group - **ru.demo**. В качестве JDK используйте Amazon Coretto 22. Нажмите **Next**.
-![img.png](TASK6/img00.png)
-4. В следующем окне ничего не выбираем и нажимаем **Create**.
-![img.png](TASK6/img.png)
-5. Если все настройки пройдены успещно появится окно с вашим проектом.
+4. Если все настройки пройдены успешно появится окно с вашим проектом.
 ![img_1.png](TASK6/img_1.png)
-6. Откройте файл **HelloApplication.java**. Нажмите правой кнопкой мыши в любом месте программного кода и выберите в контекстном меню пункт Run HelloApplication.main()
+5. Откройте файл **HelloApplication.java**. Нажмите правой кнопкой мыши в любом месте программного кода и выберите в контекстном меню пункт Run HelloApplication.main()
 ![img_2.png](TASK6/img_2.png)
-7. После этого запустится форма с одной кнопкой.
+6. После этого запустится форма с одной кнопкой.
 ![img_3.png](TASK6/img_3.png)
 
 Проект успешно создан.
@@ -91,15 +92,19 @@ Language - **Java**, Build system - **Maven**,  Group - **ru.demo**. В каче
 
 1. Выделите слева в окне файл HelloApplication.java. Нажмите правой кнопкой мыши и в контекстном меню выберите пункт Refactor/Rename.
 ![img.png](TASK6/img_4.png)
-2. В открывшемся окне в поле названия проекта вместо HelloApplication напишите TradeApp  и нажмите на кнопку Refactor.
-![img_1.png](TASK6/img_5.png)
-3. Аналогичным образом переименуйте файлы HelloController в LoginController, а файл hello-view.fxml в login-view.fxml.
+2. В открывшемся окне в поле названия проекта вместо `HelloApplication` напишите `HotelApp` 
+и нажмите на кнопку `Refactor`.
 
-![img_7.png](TASK6/img_7.png)
+![img_2.png](img_2.png)
+
+3. Аналогичным образом переименуйте файлы HelloController в MainController, а файл hello-view.fxml в 
+main-view.fxml.
+
+![img_3.png](img_3.png)
 
 4. Откройте pom.xml файл 
 
-![img_8.png](TASK6/img_8.png)
+![img_4.png](img_4.png)
 
 5. замените его код на следующий.
 
@@ -111,10 +116,10 @@ Language - **Java**, Build system - **Maven**,  Group - **ru.demo**. В каче
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.trade</groupId>
-    <artifactId>trade-app</artifactId>
+    <groupId>ru.demo</groupId>
+    <artifactId>hotel-app</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>trade-app</name>
+    <name>hotel-app</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -122,7 +127,11 @@ Language - **Java**, Build system - **Maven**,  Group - **ru.demo**. В каче
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/com.gluonhq/charm-glisten -->
+       <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.1.Final</version>
+        </dependency>
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -136,18 +145,14 @@ Language - **Java**, Build system - **Maven**,  Group - **ru.demo**. В каче
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21-ea+24</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-swing</artifactId>
-            <version>13.0.2</version>
+            <version>17.0.6</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>21-ea+24</version>
+            <version>17.0.6</version>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -160,7 +165,6 @@ Language - **Java**, Build system - **Maven**,  Group - **ru.demo**. В каче
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -183,7 +187,7 @@ Language - **Java**, Build system - **Maven**,  Group - **ru.demo**. В каче
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>ru.trade.tradeapp/ru.trade.tradeapp.TradeApp</mainClass>
+                            <mainClass>ru.demo.hotelapp/ru.demo.hotelapp.HotelApp</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
@@ -191,25 +195,6 @@ Language - **Java**, Build system - **Maven**,  Group - **ru.demo**. В каче
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.3.1</version>
-                <configuration>
-                    <configLocation>checkstyle.xml</configLocation>
-                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <failOnViolation>true</failOnViolation>
-                    <logViolationsToConsole>true</logViolationsToConsole>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <phase>compile</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -224,278 +209,15 @@ Language - **Java**, Build system - **Maven**,  Group - **ru.demo**. В каче
 7. Далее в новом окошке нажмите на кнопку Reload All Maven Projects. Это нужно для того чтобы скачать пакеты в ваш проект.
 ![img_10.png](TASK6/img_10.png)
 
-8. Добавьте в корень вашего проекта файл checkstyle.xml(этот файл позволит автоматически проверять codestyle проекта) и suppressions.xml со следующим содержимым
-
-![img_11.png](TASK6/img_11.png)
-### checkstyle.xml
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
-		"http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
-<module name="Checker">
-	<property name="severity" value="error"/>
-	<property name="charset" value="UTF-8"/>
-	<property name="fileExtensions" value="java, properties, xml"/>
-	<module name="LineLength">
-		<property name="severity" value="ignore"/>
-		<property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
-		<property name="max" value="120"/>
-		<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-	</module>
-	<module name="TreeWalker">
-		<module name="IllegalImport">
-			<property name="regexp" value="true"/>
-			<property name="illegalPkgs" value=".*\.shaded\..*"/>
-		</module>
-		<module name="OuterTypeFilename"/>
-		<module name="IllegalTokenText">
-			<property name="tokens" value="STRING_LITERAL, CHAR_LITERAL"/>
-			<property name="format" value="\\u00(09|0(a|A)|0(c|C)|0(d|D)|22|27|5(C|c))|\\(0(10|11|12|14|15|42|47)|134)"/>
-			<property name="message" value="Consider using special escape sequence instead of octal value or Unicode escaped value."/>
-		</module>
-		<!--		<module name="AvoidStarImport"/>-->
-		<module name="OneTopLevelClass"/>
-		<module name="NoLineWrap"/>
-		<module name="EmptyBlock">
-			<property name="option" value="TEXT"/>
-			<property name="tokens" value="LITERAL_TRY, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_SWITCH"/>
-		</module>
-		<module name="RegexpSinglelineJava">
-			<property name="format" value="^[ \t]*[{]"/>
-			<property name="ignoreComments" value="true"/>
-			<property name="message" value="Leading braces"/>
-		</module>
-
-		<module name="LeftCurly"/>
-		<module name="RightCurly">
-			<property name="id" value="RightCurlySame"/>
-			<property name="tokens" value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_DO"/>
-		</module>
-		<module name="RightCurly">
-			<property name="id" value="RightCurlyAlone"/>
-			<property name="option" value="alone"/>
-			<property name="tokens" value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT, INSTANCE_INIT"/>
-		</module>
-		<module name="WhitespaceAround">
-			<property name="allowEmptyConstructors" value="true"/>
-			<property name="allowEmptyMethods" value="true"/>
-			<property name="allowEmptyTypes" value="true"/>
-			<property name="allowEmptyLoops" value="true"/>
-			<message key="ws.notPreceded" value="WhitespaceAround: ''{0}'' is not preceded with whitespace."/>
-			<message key="ws.notFollowed"
-					 value="WhitespaceAround: ''{0}'' is not followed by whitespace. Empty blocks may only be represented as '{}' when not part of a multi-block statement (4.1.3)"/>
-		</module>
-		<module name="ArrayTypeStyle"/>
-		<module name="MissingSwitchDefault">
-			<property name="severity" value="ignore"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="UpperEll"/>
-		<module name="ModifierOrder"/>
-		<module name="EmptyLineSeparator">
-			<property name="tokens"
-					  value="IMPORT,CLASS_DEF,ENUM_DEF,INTERFACE_DEF,CTOR_DEF,METHOD_DEF,STATIC_INIT,INSTANCE_INIT,VARIABLE_DEF"/>
-			<property name="allowNoEmptyLineBetweenFields" value="true"/>
-		</module>
-		<module name="SeparatorWrap">
-			<property name="id" value="SeparatorWrapDot"/>
-			<property name="option" value="nl"/>
-			<property name="tokens" value="DOT"/>
-		</module>
-		<module name="SeparatorWrap">
-			<property name="id" value="SeparatorWrapComma"/>
-			<property name="option" value="EOL"/>
-			<property name="tokens" value="COMMA"/>
-		</module>
-		<module name="SeparatorWrap">
-			<property name="id" value="SeparatorWrapEllipsis"/>
-			<property name="option" value="EOL"/>
-			<property name="tokens" value="ELLIPSIS"/>
-		</module>
-		<module name="SeparatorWrap">
-			<property name="id" value="SeparatorWrapArrayDeclarator"/>
-			<property name="option" value="EOL"/>
-			<property name="tokens" value="ARRAY_DECLARATOR"/>
-		</module>
-		<module name="SeparatorWrap">
-			<property name="id" value="SeparatorWrapMethodRef"/>
-			<property name="option" value="nl"/>
-			<property name="tokens" value="METHOD_REF"/>
-		</module>
-		<module name="PackageName">
-			<!--<property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>-->
-			<message key="name.invalidPattern" value="Package name ''{0}'' must match pattern ''{1}''."/>
-		</module>
-		<module name="TypeName">
-			<message key="name.invalidPattern" value="Type name ''{0}'' must match pattern ''{1}''."/>
-		</module>
-		<module name="MemberName">
-			<message key="name.invalidPattern" value="Member name ''{0}'' must match pattern ''{1}''."/>
-		</module>
-		<module name="ParameterName">
-			<property name="format" value="^[a-z]([a-zA-Z0-9]*)?$"/>
-			<property name="accessModifiers" value="public"/>
-			<message key="name.invalidPattern" value="Parameter name ''{0}'' must match pattern ''{1}''."/>
-		</module>
-		<module name="CatchParameterName">
-			<property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
-			<message key="name.invalidPattern" value="Catch parameter name ''{0}'' must match pattern ''{1}''."/>
-		</module>
-		<module name="LocalVariableName">
-			<property name="format" value="^[a-z]([a-zA-Z0-9]*)?$"/>
-			<property name="tokens" value="VARIABLE_DEF"/>
-			<message key="name.invalidPattern" value="Local variable name ''{0}'' must match pattern ''{1}''."/>
-		</module>
-		<module name="ClassTypeParameterName">
-			<property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
-			<message key="name.invalidPattern" value="Class type name ''{0}'' must match pattern ''{1}''."/>
-		</module>
-		<module name="MethodTypeParameterName">
-			<property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
-			<message key="name.invalidPattern" value="Method type name ''{0}'' must match pattern ''{1}''."/>
-		</module>
-		<module name="InterfaceTypeParameterName">
-			<property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$|[ID]$)"/>
-			<message key="name.invalidPattern" value="Interface type name ''{0}'' must match pattern ''{1}''."/>
-		</module>
-		<module name="NoFinalizer">
-			<property name="severity" value="ignore"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="GenericWhitespace">
-			<message key="ws.notPreceded" value="GenericWhitespace ''{0}'' is not preceded with whitespace."/>
-			<message key="ws.followed" value="GenericWhitespace ''{0}'' is followed by whitespace."/>
-			<message key="ws.preceded" value="GenericWhitespace ''{0}'' is preceded with whitespace."/>
-			<message key="ws.illegalFollow" value="GenericWhitespace ''{0}'' should followed by whitespace."/>
-		</module>
-		<!-- No trailing whitespace -->
-		<module name="Regexp">
-			<property name="format" value="[ \t]+$"/>
-			<property name="illegalPattern" value="true"/>
-			<property name="message" value="Trailing whitespace"/>
-		</module>
-		<module name="Indentation">
-			<property name="severity" value="ignore"/>
-			<property name="caseIndent" value="2"/>
-			<property name="arrayInitIndent" value="2"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="AbbreviationAsWordInName">
-			<property name="severity" value="ignore"/>
-			<property name="allowedAbbreviationLength" value="1"/>
-			<property name="ignoreFinal" value="false"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="VariableDeclarationUsageDistance">
-			<property name="severity" value="ignore"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="UnusedImports"/>
-		<module name="MethodParamPad"/>
-		<module name="NoWhitespaceBefore">
-			<property name="allowLineBreaks" value="true"/>
-			<property name="tokens" value="COMMA, SEMI, POST_INC, POST_DEC, DOT, ELLIPSIS, METHOD_REF"/>
-		</module>
-		<module name="ParenPad"/>
-		<module name="OperatorWrap">
-			<property name="severity" value="ignore"/>
-			<property name="option" value="NL"/>
-			<property name="tokens"
-					  value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR, METHOD_REF "/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="AnnotationLocation">
-			<property name="id" value="AnnotationLocationMostCases"/>
-			<property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF"/>
-		</module>
-		<module name="AnnotationLocation">
-			<property name="id" value="AnnotationLocationVariables"/>
-			<property name="tokens" value="VARIABLE_DEF"/>
-			<property name="allowSamelineMultipleAnnotations" value="true"/>
-		</module>
-		<module name="NonEmptyAtclauseDescription">
-			<property name="severity" value="ignore"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="JavadocTagContinuationIndentation">
-			<property name="severity" value="ignore"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="SummaryJavadoc">
-			<property name="severity" value="ignore"/>
-			<property name="forbiddenSummaryFragments" value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="JavadocParagraph">
-			<property name="severity" value="ignore"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="AtclauseOrder">
-			<property name="severity" value="ignore"/>
-			<property name="target" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
-			<property name="tagOrder" value="@param, @return, @throws, @deprecated"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="JavadocMethod">
-			<property name="severity" value="ignore"/>
-			<property name="allowedAnnotations" value="Override, Test"/>
-			<property name="allowMissingParamTags" value="true"/>
-			<property name="allowMissingReturnTag" value="true"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="MethodName">
-			<property name="format" value="^[a-z][a-zA-Z0-9_]*|NVL$"/>
-			<message key="name.invalidPattern" value="Method name ''{0}'' must match pattern ''{1}''."/>
-		</module>
-		<module name="SingleLineJavadoc">
-			<property name="severity" value="ignore"/>
-			<property name="ignoreInlineTags" value="false"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="EmptyCatchBlock">
-			<property name="exceptionVariableName" value="expected|ignore"/>
-		</module>
-		<module name="JavadocStyle">
-			<property name="severity" value="ignore"/>
-			<property name="checkFirstSentence" value="false"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="JavadocStyle">
-			<property name="severity" value="ignore"/>
-			<property name="checkHtml" value="false"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="SummaryJavadoc">
-			<property name="severity" value="ignore"/>
-			<metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-		</module>
-		<module name="SuppressWarningsHolder"/>
-		<module name="SuppressionCommentFilter"/>
-	</module>
-	<module name="SuppressWarningsFilter"/>
-	<module name="SuppressionFilter">
-		<property name="file" value="suppressions.xml"/>
-		<property name="optional" value="false"/>
-	</module>
-</module>
-
-```
-
-### suppressions.xml
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suppressions PUBLIC
-		"-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
-		"https://checkstyle.org/dtds/suppressions_1_2.dtd">
-<suppressions>
-	<suppress checks=".*" files="target[\\/]generated-sources[\\/]"/>
-</suppressions>
-```
-
 ## Настройка подключения к БД
 1. Добавьте в папку resourses файл ```hibernate.cfg.xml```
 
-![img_12.png](TASK6/img_12.png)
+![img_5.png](img_5.png)
+
+![img_6.png](img_6.png)
+
+![img_7.png](img_7.png)
+
 
 добавьте в него следующий код
 
@@ -518,58 +240,79 @@ Language - **Java**, Build system - **Maven**,  Group - **ru.demo**. В каче
         <property name = "hibernate.show_sql">true</property>
         <!-- Optional: Auto-generate schema -->
         <!-- <property name = "hibernate.hbm2ddl.auto">create</property> -->
-        <mapping class="ru.demo.tradeapp.models.User" />
+        <mapping class="ru.demo.hotelapp.model.Booking" />
     </session-factory>
 </hibernate-configuration>
 
 ```
 Вместо **databasename** - укажите название БД, с которой вы работаете. Вместо **myusername** и **mypassword** укажите логин и пароль соответственно.
-Строка ```<mapping class="ru.trade.tradeapp.models.User" />``` указывает название файла класса, который будет ассоциирован с таблицей **users** из бд.
+Строка ```<mapping class="ru.trade.hotelapp.model.Booking" />``` указывает название файла класса, который будет ассоциирован с таблицей **bookings** из бд.
 В дальнейшем по мере разработки приложения, мы будем добавлять в этот файл новые классы.
 
-2. Добавим в пакет ru.demo.tradeapp пакет controllers. Для этого нажмите правой кнопкой мыши по пакету  ru.demo.tradeapp. Далее в контекстном меню выберите New/Package
-![img_14.png](TASK6/img_14.png)
-3. Укажите название пакета controllers  и нажмите Enter.
+При возникновении ошибки возле строки 
+` "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd"`
+установите курсор внутрь строки, далее наведите курсор мыши на красную лампочку слева от этой строки и в раскрывающемся списке выберите 
+`ignore external resource`
+![img_8.png](img_8.png)П
 
-![img_15.png](TASK6/img_15.png)
-4. Аналогичным образом добавьте езе два пакета models и util.
+2. Добавим в пакет ru.demo.hotelapp пакет controller. Для этого нажмите правой кнопкой мыши по пакету  ru.demo.hotelapp.
+Далее в контекстном меню выберите New/Package
 
-![img_13.png](TASK6/img_13.png)
-5. Простым перетаскиванием(выделите файл и удерживая левой кнопкой мыши) переместите файл LoginController.java в пакет controllers.
+![img_9.png](img_9.png)
 
-![img_16.png](TASK6/img_16.png)
+3. Укажите название пакета controller  и нажмите Enter.
+
+![img_10.png](img_10.png)
+
+4. Аналогичным образом добавьте еще два пакета model и util.
+
+![img_11.png](img_11.png)
+
+5. Простым перетаскиванием(выделите файл и удерживая левой кнопкой мыши) переместите файл
+MainController.java в пакет controller.
+
+![img_12.png](img_12.png)
+
 6. Подтвердите перемещение нажав на кнопку **Refactor**
 
-![img_17.png](TASK6/img_17.png)
+![img_13.png](img_13.png)
+
 Должна получиться вот такая структура файлов
 
-![img_18.png](TASK6/img_18.png)
+![img_14.png](img_14.png)
+
 7. Откройте файл module-info.java.
 
-![img_19.png](TASK6/img_19.png)
+![img_15.png](img_15.png)
 
 8. Замените содержимое файла на следующий код
 
 ### module-info.java
 ```java
-module ru.demo.tradeapp {
+module ru.demo.hotelapp {
     requires javafx.controls;
     requires javafx.fxml;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires java.naming;
     requires java.desktop;
-    requires javafx.swing;
-    opens ru.demo.tradeapp to javafx.fxml;
-    opens ru.demo.tradeapp.models to org.hibernate.orm.core;
-    exports ru.demo.tradeapp;
-    exports ru.demo.tradeapp.controllers;
-    opens ru.demo.tradeapp.controllers to javafx.fxml;
+    requires org.hibernate.validator;
+    requires org.postgresql.jdbc;
+    opens ru.demo.hotelapp to javafx.fxml;
+    opens ru.demo.hotelapp.model to org.hibernate.orm.core, javafx.base;
+    exports ru.demo.hotelapp;
+    exports ru.demo.hotelapp.controller;
+    opens ru.demo.hotelapp.controller to javafx.fxml;
+    opens ru.demo.hotelapp.util to org.hibernate.orm.core;
 }
 ```
 9. Добавьте в папку resources файл base-styles.css
 
-![img_20.png](TASK6/img_20.png)
+![img_16.png](img_16.png)
+
+![img_17.png](img_17.png)
+
+![img_18.png](img_18.png)
 
 10. Добавьте в него следующий программный код.
 
@@ -618,7 +361,7 @@ module ru.demo.tradeapp {
     -fx-text-fill: #FFF;
 }
 ```
-11. Добавьте в папку ru.demo.tradeapp, которая располагается в папке resources две картинки
+11. Добавьте в папку ru.demo.hotelapp, которая располагается в папке resources две картинки
 
 ![pen.png](TASK6/pen.png) ![picture.png](TASK6/picture.png)
 ![img_21.png](TASK6/img_21.png)
@@ -627,7 +370,7 @@ module ru.demo.tradeapp {
 
 ### User.java
 ```java
-package ru.demo.tradeapp.models;
+package ru.demo.hotelapp.models;
 
 // Java Program to Illustrate Creation of Simple POJO Class
 
@@ -716,11 +459,11 @@ public class User {
 
 ### класс HibernateSessionFactoryUtil.java
 ```java
-package ru.demo.tradeapp.util;
+package ru.demo.hotelapp.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import ru.demo.tradeapp.models.User;
+import ru.demo.hotelapp.models.User;
 
 public class HibernateSessionFactoryUtil {
 
@@ -747,7 +490,7 @@ public static SessionFactory getSessionFactory() {
 ### класс MakeCaptcha.java
 
 ```java
-package ru.demo.tradeapp.util;
+package ru.demo.hotelapp.util;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -836,13 +579,13 @@ public class MakeCaptcha {
 
 ### Класс Manager.java
 ```java
-package ru.demo.tradeapp.util;
+package ru.demo.hotelapp.util;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import ru.demo.tradeapp.models.User;
+import ru.demo.hotelapp.models.User;
 
 import java.util.Optional;
 
@@ -876,7 +619,7 @@ public class Manager {
 14. Замените код файла LoginController.java на этот код.
 ### LoginController.java
 ```java
-package ru.demo.tradeapp.controllers;
+package ru.demo.hotelapp.controllers;
 
 import jakarta.persistence.Query;
 import javafx.event.ActionEvent;
@@ -891,17 +634,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import org.hibernate.Session;
-import ru.demo.tradeapp.TradeApp;
-import ru.demo.tradeapp.models.User;
-import ru.demo.tradeapp.util.HibernateSessionFactoryUtil;
-import ru.demo.tradeapp.util.MakeCaptcha;
-import ru.demo.tradeapp.util.Manager;
+import ru.demo.hotelapp.hotelapp;
+import ru.demo.hotelapp.models.User;
+import ru.demo.hotelapp.util.HibernateSessionFactoryUtil;
+import ru.demo.hotelapp.util.MakeCaptcha;
+import ru.demo.hotelapp.util.Manager;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import static ru.demo.tradeapp.util.Manager.ShowErrorMessageBox;
+import static ru.demo.hotelapp.util.Manager.ShowErrorMessageBox;
 
 public class LoginController implements Initializable {
 
@@ -998,7 +741,7 @@ public class LoginController implements Initializable {
         System.out.println(Manager.currentUser);
         Manager.mainStage.hide();
         Stage newWindow = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(TradeApp.class.getResource("main-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(hotelapp.class.getResource("main-view.fxml"));
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load());
@@ -1061,12 +804,12 @@ public class LoginController implements Initializable {
 15. Добавьте в пакет **controllers** новый класс **MainWindowController.java**
 ### MainWindowController.java
 ```java
-package ru.demo.tradeapp.controllers;
+package ru.demo.hotelapp.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TitledPane;
-import ru.demo.tradeapp.util.Manager;
+import ru.demo.hotelapp.util.Manager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -1101,7 +844,7 @@ public class MainWindowController implements Initializable {
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane maxHeight="200.0" maxWidth="350.0" minHeight="200.0" minWidth="350.0" prefHeight="200.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.demo.tradeapp.controllers.LoginController">
+<AnchorPane maxHeight="200.0" maxWidth="350.0" minHeight="200.0" minWidth="350.0" prefHeight="200.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.demo.hotelapp.controllers.LoginController">
     <children>
         <GridPane layoutX="25.0" layoutY="34.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columnConstraints>
@@ -1166,7 +909,7 @@ public class MainWindowController implements Initializable {
 
 ```
 
-17. в пакет ru.demo.tradeapp в папке recources добавьте файл main-view.fxml.
+17. в пакет ru.demo.hotelapp в папке recources добавьте файл main-view.fxml.
 ![img_22.png](TASK6/img_22.png)
 18. Откройте этот файл и измените его код на 
 ### main-view.fxml.
@@ -1179,7 +922,7 @@ public class MainWindowController implements Initializable {
             maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="400.0" prefWidth="600.0" text="Main" xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/21"
-            fx:controller="ru.demo.tradeapp.controllers.MainWindowController">
+            fx:controller="ru.demo.hotelapp.controllers.MainWindowController">
     <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
     </content>
@@ -1187,23 +930,23 @@ public class MainWindowController implements Initializable {
 
 ```
 
-19. Откройте файл TradeApp.java И замените его код на следующий
-### TradeApp.java
+19. Откройте файл hotelapp.java И замените его код на следующий
+### hotelapp.java
 ```java
-package ru.demo.tradeapp;
+package ru.demo.hotelapp;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import ru.demo.tradeapp.models.User;
-import ru.demo.tradeapp.util.Manager;
+import ru.demo.hotelapp.models.User;
+import ru.demo.hotelapp.util.Manager;
 
 import java.io.IOException;
 
 
-public class TradeApp extends Application {
+public class hotelapp extends Application {
 
     public User currentUser;
 
@@ -1216,7 +959,7 @@ public class TradeApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        stage.getIcons().add(new Image(TradeApp.class.getResourceAsStream("pen.png")));
+        stage.getIcons().add(new Image(hotelapp.class.getResourceAsStream("pen.png")));
         stage.setScene(getNewScene());
         stage.setTitle("Авторизация!");
         stage.setResizable(false);
@@ -1236,7 +979,7 @@ public class TradeApp extends Application {
     }
 
     Scene getNewScene() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(TradeApp.class.getResource("login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(hotelapp.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add("base-styles.css");
         return scene;
@@ -1250,8 +993,8 @@ public class TradeApp extends Application {
 
 ## Запуск приложения
 
-1. Откройте файл TradeApp.java и нажмите на Зеленый треугольник слева от строчки 
-```public class TradeApp extends Application```
+1. Откройте файл hotelapp.java и нажмите на Зеленый треугольник слева от строчки 
+```public class hotelapp extends Application```
 ![img_24.png](TASK6/img_24.png)
 2. Если все предыдущие шаги выполнены корректно, то запустится форма авторизации, стилизованная с использованием файла css.
 
@@ -1270,40 +1013,3 @@ public class TradeApp extends Application {
 Предыдущее занятие | &nbsp; | Следующее занятие
 :----------------:|:----------:|:----------------:
 [Урок 1](Lesson1.md) | [Содержание](readme.md) | [Урок 3](Lesson3.md)
-
-# Задания
-
-[Учетные данные 215 Группа](docs/215.md)
-
-[Справочник по SQL](https://unetway.com/tutorials/sql)
-
-**Задание 1**
-
-Выведите список клиентов с указанием количества дней, который прожил клиент в рамках текущего заказа.   
-
-**Задание 2**
-
-Выведите список уборщиц.
-
-**Задание 3**
-
-Выведите список сотрудников и руководителей с указанием их username и password.
-
-**Задание 4**
-
-Выведите количество номеров на каждом этаже гостиницы.
-
-**Задание 5**
-
-Выведите среднюю стоимость номеров на каждом этаже гостиницы.
-
-Отправьте скрипты созданных запросов (репозиторий **UP04_TASK5**).
-
-## Критерии оценивания
-
-* На оценку 5(отлично) - Выполнены все задания.
-* На оценку 4(хорошо) - Созданы три любых запроса.
-* На оценку 3(удовл) - Создан один любой запроса.
-
-
-
