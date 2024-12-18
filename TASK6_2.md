@@ -499,7 +499,8 @@ public class HotelApp extends Application {
 15. В пакете `util` создайте два класса и замените их код на слудеющий
 
 <details>
-<summary></summary>
+
+<summary>Manager.java</summary>
 
 ```java
 package ru.demo.hotelapp.util;
