@@ -548,9 +548,9 @@ INSERT INTO bookings(client_id, date_start, date_end, room_id)
 
 Наши два триггера `check_rooms` и `set_reserve_rooms` отработают корректно.
 check_rooms проверит наличие свободных номеров. И так как сободные номера есть, то ошибки не возникнет.
-Далее после добавления записи в таблицу bookings новой записи запутится триггер set_reserve_rooms, который обновит статус комнаты 203 с room_id = 6 на room_status_id = 3.
+Далее после добавления записи в таблицу bookings новой записи запутится триггер set_reserve_rooms, который обновит статус комнаты 203 с room_id = 6 на room_status_id = 2.
 
-![img_15.png](TASK4/img_15.png)
+![img_19.png](TASK4/img_19.png)
 
 ### Тестирование добавления при отсутствии свободных номеров
 
@@ -663,7 +663,8 @@ INSERT INTO bookings(client_id, date_start, date_end, room_id)
 
 ![img_24.png](TASK4/img_24.png)
 
-Посмотрим на изменения в БД. В таблице bookings должна появиться новая запись 
+Посмотрим на изменения в БД.
+В таблице bookings должна появиться новая запись 
 
 ![img_14.png](TASK4/img_14.png)
 
@@ -674,7 +675,7 @@ INSERT INTO bookings(client_id, date_start, date_end, room_id)
 триггер set_reserve_rooms, который обновит статус комнаты 203 с room_id = 6 
 на room_status_id = 2.
 
-![img_15.png](TASK4/img_15.png)
+![img_19.png](TASK4/img_19.png)
 
 ### Тестирование добавления при отсутствии свободных номеров
 
