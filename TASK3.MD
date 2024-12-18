@@ -190,6 +190,8 @@ SELECT get_room_categories_count(1500, price_to => 2300);
 
 [Учетные данные 215 Группа](docs/215.md)
 
+[Учетные данные 217 Группа](docs/217.md)
+
 1. Создайте функцию get_room_categories_count согласно примеру. Протестируйте его.
 
 2. Изучите дополнительную информацию о входных и выходных параметрах из [статьи](https://neon.tech/postgresql/postgresql-plpgsql/plpgsql-function-parameters).
