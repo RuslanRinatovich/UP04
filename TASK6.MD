@@ -63,7 +63,7 @@ Group: | ru.demo
 Artifact: | hotel-app
 JDK: | coretto-22 Amazon Coretto version
 
-![img.png](img.png)
+![img.png](images/img.png)
 
 4. Если все настройки пройдены успешно появится окно с вашим проектом.
 ![img_1.png](TASK6/img_1.png)
@@ -81,16 +81,16 @@ JDK: | coretto-22 Amazon Coretto version
 2. В открывшемся окне в поле названия проекта вместо `HelloApplication` напишите `HotelApp` 
 и нажмите на кнопку `Refactor`.
 
-![img_2.png](img_2.png)
+![img_2.png](images/img_2.png)
 
 3. Аналогичным образом переименуйте файлы HelloController в MainController, а файл hello-view.fxml в 
 main-view.fxml.
 
-![img_3.png](img_3.png)
+![img_3.png](images/img_3.png)
 
 4. Откройте pom.xml файл 
 
-![img_4.png](img_4.png)
+![img_4.png](images/img_4.png)
 
 5. замените его код на следующий.
 
@@ -198,11 +198,11 @@ main-view.fxml.
 ## Настройка подключения к БД
 1. Добавьте в папку resourses файл ```hibernate.cfg.xml```
 
-![img_5.png](img_5.png)
+![img_5.png](images/img_5.png)
 
-![img_6.png](img_6.png)
+![img_6.png](images/img_6.png)
 
-![img_7.png](img_7.png)
+![img_7.png](images/img_7.png)
 
 
 добавьте в него следующий код
@@ -239,37 +239,37 @@ main-view.fxml.
 ` "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd"`
 установите курсор внутрь строки, далее наведите курсор мыши на красную лампочку слева от этой строки и в раскрывающемся списке выберите 
 `ignore external resource`
-![img_8.png](img_8.png)П
+![img_8.png](images/img_8.png)П
 
 2. Добавим в пакет ru.demo.hotelapp пакет controller. Для этого нажмите правой кнопкой мыши по пакету  ru.demo.hotelapp.
 Далее в контекстном меню выберите New/Package
 
-![img_9.png](img_9.png)
+![img_9.png](images/img_9.png)
 
 3. Укажите название пакета controller  и нажмите Enter.
 
-![img_10.png](img_10.png)
+![img_10.png](images/img_10.png)
 
 4. Аналогичным образом добавьте еще три пакета model и util.
 
-![img_19.png](img_19.png)
+![img_19.png](images/img_19.png)
 
 5. Простым перетаскиванием(выделите файл и удерживая левой кнопкой мыши) переместите файл
 MainController.java в пакет controller.
 
-![img_12.png](img_12.png)
+![img_12.png](images/img_12.png)
 
 6. Подтвердите перемещение нажав на кнопку **Refactor**
 
-![img_13.png](img_13.png)
+![img_13.png](images/img_13.png)
 
 Должна получиться вот такая структура файлов
 
-![img_14.png](img_14.png)
+![img_14.png](images/img_14.png)
 
 7. Откройте файл module-info.java.
 
-![img_15.png](img_15.png)
+![img_15.png](images/img_15.png)
 
 8. Замените содержимое файла на следующий код
 
@@ -295,11 +295,11 @@ module ru.demo.hotelapp {
 ```
 9. Добавьте в папку resources файл base-styles.css
 
-![img_16.png](img_16.png)
+![img_16.png](images/img_16.png)
 
-![img_17.png](img_17.png)
+![img_17.png](images/img_17.png)
 
-![img_18.png](img_18.png)
+![img_18.png](images/img_18.png)
 
 10. Добавьте в него следующий программный код.
 
@@ -380,7 +380,7 @@ public class HotelApp extends Application {
 
 12. В resources создайте файл `booking-edit-view.fxml` и замените код
 
-![img_20.png](img_20.png)
+![img_20.png](images/img_20.png)
 
 <details>
 
@@ -1638,15 +1638,15 @@ public class MainController implements Initializable {
 
 ### Итоговая структура проекта
 
-![img_21.png](img_21.png)
+![img_21.png](images/img_21.png)
 
 ## Запуск приложения
 
 Соберите приложение и протестируйте его
 
-![img_22.png](img_22.png)
+![img_22.png](images/img_22.png)
 
-![img_23.png](img_23.png)
+![img_23.png](images/img_23.png)
 
 Предыдущее занятие |         &nbsp;          | Следующее занятие
 :----------------:|:-----------------------:|:----------------:
