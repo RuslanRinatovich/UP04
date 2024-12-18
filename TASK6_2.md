@@ -382,6 +382,10 @@ public class HotelApp extends Application {
 
 ![img_20.png](img_20.png)
 
+<details>
+
+<summary>booking-edit-view.fxml</summary>
+
 ```fxml
 <?xml version="1.0" encoding="UTF-8"?>
 
@@ -437,8 +441,13 @@ public class HotelApp extends Application {
 </AnchorPane>
 
 ```
+</details>
 
 14. Замените код файла `main-view.fxml`
+
+<details>
+
+<summary>main-view.fxml</summary>
 
 ```fxml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -495,6 +504,7 @@ public class HotelApp extends Application {
 </AnchorPane>
 
 ```
+</details>
 
 15. В пакете `util` создайте два класса и замените их код на слудеющий
 
