@@ -498,7 +498,9 @@ public class HotelApp extends Application {
 
 15. В пакете `util` создайте два класса и замените их код на слудеющий
 
-`Manager.java`
+<details>
+<summary></summary>
+
 ```java
 package ru.demo.hotelapp.util;
 
@@ -609,7 +611,11 @@ public class Manager {
 }
 ```
 
-`HibernateSessionFactoryUtil.java`
+</details>
+
+<details>
+
+<summary>HibernateSessionFactoryUtil.java</summary>
 
 ```java
 package ru.demo.hotelapp.util;
@@ -640,6 +646,185 @@ public class HibernateSessionFactoryUtil {
 }
 ```
 
+</details>
+
+
+16. В пакет `repository` добавьте следующие классы.
+
+<details>
+
+<summary>BaseDao</summary>
+
+```java
+package ru.demo.hotelapp.repository;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import ru.demo.hotelapp.util.HibernateSessionFactoryUtil;
+
+import java.util.List;
+
+public abstract class BaseDao<T> {
+    private Class<T> clazz;
+
+    public BaseDao(Class<T> clazz) {
+        this.clazz = clazz;
+    }
+
+    protected Session getCurrentSession() {
+        return HibernateSessionFactoryUtil.getSessionFactory().getCurrentSession();
+    }
+
+
+    public void save(final T entity) {
+
+        Session session = getCurrentSession();
+        Transaction tx1 = session.beginTransaction();
+        session.persist(entity);
+        tx1.commit();
+        session.close();
+    }
+
+    public void update(final T entity) {
+        Session session = getCurrentSession();
+        Transaction tx1 = session.beginTransaction();
+        session.merge(entity);
+        tx1.commit();
+        session.close();
+    }
+
+    public void delete(final T entity) {
+        Session session = getCurrentSession();
+        Transaction tx1 = session.beginTransaction();
+        session.remove(entity);
+        tx1.commit();
+        session.close();
+    }
+
+    public void deleteById(final long entityId) {
+        final T entity = findOne(entityId);
+        delete(entity);
+    }
+
+    public T findOne(final long id) {
+        Session session = getCurrentSession();
+        session.beginTransaction();
+        T item = session.get(clazz, id);
+        session.close();
+        return item;
+    }
+
+
+    public List<T> findAll() {
+        Session session = getCurrentSession();
+        session.beginTransaction();
+        List<T> items = (List<T>) session.createQuery("from " + clazz.getName()).list();
+        session.close();
+        return items;
+    }
+}
+
+
+
+```
+
+</details>
+
+
+<details>
+
+<summary>BookingDao</summary>
+
+```java
+package ru.demo.hotelapp.repository;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import ru.demo.hotelapp.model.Booking;
+
+public class BookingDao extends BaseDao<Booking> {
+    public BookingDao() {
+        super(Booking.class);
+    }
+
+    @Override
+    public void save(Booking entity) {
+        Session session = getCurrentSession();
+        Transaction tx1 = null;
+        try {
+            tx1 = session.beginTransaction();
+            session.persist(entity);
+            tx1.commit();
+        } catch (Exception e) {
+
+            if (tx1 != null) tx1.rollback();
+            throw (e);
+        } finally {
+            session.close();
+        }
+    }
+}
+
+```
+
+</details>
+
+<details>
+
+<summary>ClientDao</summary>
+
+```java
+package ru.demo.hotelapp.repository;
+
+import ru.demo.hotelapp.model.Client;
+
+public class ClientDao extends BaseDao<Client> {
+    public ClientDao() {
+        super(Client.class);
+    }
+}
+
+```
+
+</details>
+
+<details>
+
+<summary>RoomCategoryDao</summary>
+
+```java
+package ru.demo.hotelapp.repository;
+
+import ru.demo.hotelapp.model.RoomCategory;
+
+public class RoomCategoryDao extends BaseDao<RoomCategory> {
+    public RoomCategoryDao() {
+        super(RoomCategory.class);
+    }
+}
+
+```
+
+</details>
+
+<details>
+
+<summary>RoomDao</summary>
+
+```java
+package ru.demo.hotelapp.repository;
+
+import ru.demo.hotelapp.model.Room;
+
+public class RoomDao extends BaseDao<Room> {
+    public RoomDao() {
+        super(Room.class);
+    }
+}
+
+```
+
+</details>
 
 
 
